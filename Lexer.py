@@ -26,14 +26,14 @@ class Lexer():
             elif string:=re.match("\A\"([^\"]*)\"",chunk):#string
                 self.tokens.append([self.to_sym("string"),string[0]])
                 i+=len(string.group())
-            elif indent:=re.match("\A\:\n( +)",chunk):#indent
+            elif indent:=re.match("\A\:\n( +)",chunk,re.MULTILINE):#indent
                 if len(indent[1])<=self.current_indent:
                     raise f"Bad indent, got {len(indent[1])} indents, expected>{self.current_indent}"
                 self.current_indent = len(indent[1])
                 self.indent_stack.append(self.current_indent)
                 self.tokens.append([self.to_sym("indent"),len(indent[1])])
                 i+=len(indent[1])+2
-            elif indent:=re.match("\A\n( *)",chunk):
+            elif indent:=re.match("\A\n( *)",chunk,re.MULTILINE):
                 if len(indent[1])==self.current_indent:
                     self.tokens.append([self.to_sym("newline"),"\n"])
                 elif len(indent[1])<self.current_indent:
