@@ -10,12 +10,12 @@
     std::list<std::string> keywords={"def","class","if","true","false","nil"};
 %}
 
-identifier ([a-z]*)
-constant ([A-Z]\w*)
+identifier ([a-z]+)
+constant ([A-Z]+)
 number ([0-9]+)
 str \"([^\"]*)\"
-operator (\|\||&&|==|!=|<=|>=)
-indent \:\n( +)
+operator (=|\|\||&&|==|!=|<=|>=)
+indent :\n(\s*)
 
 %%
 {str}           {
@@ -36,6 +36,12 @@ indent \:\n( +)
                 }
 {operator}      {
                     tokens.push_back(std::make_tuple(std::string(yytext),std::string(yytext)));
+                }
+{indent}        { 
+                    std::cout<<"INDENT "<<yyleng<<std::endl;
+                }
+{constant}      {
+                    tokens.push_back(std::make_tuple("CONSTANT",std::string(yytext)));
                 }
 
 %%
