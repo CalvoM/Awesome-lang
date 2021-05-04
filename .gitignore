@@ -3,3 +3,4 @@ lex.yy*
 *.o
 *.c
 .vscode/
+*.pyc
