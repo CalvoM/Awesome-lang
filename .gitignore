@@ -4,3 +4,4 @@ lex.yy*
 *.c
 .vscode/
 *.pyc
+__pycache__/

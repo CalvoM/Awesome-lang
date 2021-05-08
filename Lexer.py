@@ -1,5 +1,5 @@
 import re
-class Lexer():
+class MyLexer():
     def __init__(self):
         self.keywords=["def","class","if","true","false","nil"]
         self.current_indent=0
@@ -70,7 +70,7 @@ class Lexer():
 
 
 if __name__ == "__main__":
-    lex = Lexer()
+    lex = MyLexer()
     content=""
     with open("./sample.txt","r") as f:
         content = f.read()
