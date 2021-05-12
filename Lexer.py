@@ -1,17 +1,19 @@
 import re
+
+
 class MyLexer():
     def __init__(self):
-        self.keywords=["def","class","if","true","false","nil"]
-        self.current_indent=0
-        self.indent_stack=[]
-        
-    def tokenize(self,code:str):
+        self.keywords = ["def", "class", "if", "true", "false", "nil"]
+        self.current_indent = 0
+        self.indent_stack = []
+
+    def tokenize(self, code: str):
         code = code.rstrip()
         self.tokens = []
-        i=0
-        while i<len(code):
+        i = 0
+        while i < len(code):
             chunk = code[i:]
-            if m := re.match("\A([a-z]\w*)",chunk):#word
+            if m := re.match("\A([a-z]\w*)", chunk):   # word
                 if m[1] in self.keywords:
                     self.tokens.append([self.to_sym(m[1]),m[1]])
                 else:
@@ -63,18 +65,17 @@ class MyLexer():
                 self.tokens.append([self.to_sym("dedent"),indent])
                 if len(self.indent_stack)==0:
                     break
-    
-    def to_sym(self,word:str)->str:
+
+    def to_sym(self, word: str) -> str:
         word = word.upper()
         return repr(word)
 
 
 if __name__ == "__main__":
     lex = MyLexer()
-    content=""
-    with open("./sample.txt","r") as f:
+    content = ""
+    with open("./sample.txt", "r") as f:
         content = f.read()
     lex.tokenize(content)
     for t in lex.tokens:
-        print(t)
-    
+        print(t[0])
